@@ -1,5 +1,6 @@
 package enigma.customer.controller;
 
+import enigma.customer.dto.CustomerDTO;
 import enigma.customer.model.Customer;
 import enigma.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,9 @@ public class CustomerController {
 
     @PostMapping
     public Customer create(
-            @RequestBody Customer customer
+            @RequestBody CustomerDTO customerDTO
     ) {
-        return customerService.create(customer);
+        return customerService.create(customerDTO);
     }
 
     @GetMapping
@@ -35,9 +36,9 @@ public class CustomerController {
     @PutMapping("/{id}")
     public Customer updateById(
             @PathVariable Long id,
-            @RequestBody Customer updatedCustomer
+            @RequestBody CustomerDTO customerDTO
     ) {
-        return customerService.updateById(id, updatedCustomer);
+        return customerService.updateById(id, customerDTO);
     }
 
     @DeleteMapping("/{id}")
