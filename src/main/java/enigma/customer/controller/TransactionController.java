@@ -1,10 +1,7 @@
 package enigma.customer.controller;
 
-import enigma.customer.dto.CustomerDTO;
 import enigma.customer.dto.TransactionDTO;
-import enigma.customer.model.Customer;
 import enigma.customer.model.Transaction;
-import enigma.customer.service.CustomerService;
 import enigma.customer.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
