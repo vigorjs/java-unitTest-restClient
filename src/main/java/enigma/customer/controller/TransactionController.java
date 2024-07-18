@@ -1,5 +1,6 @@
 package enigma.customer.controller;
 
+import enigma.customer.dto.Todo;
 import enigma.customer.dto.TransactionDTO;
 import enigma.customer.model.Transaction;
 import enigma.customer.service.TransactionService;
@@ -46,5 +47,15 @@ public class TransactionController {
             @PathVariable Long id
     ) {
         transactionService.deleteById(id);
+    }
+
+    @GetMapping("/todos")
+    public List<Todo> test(){
+        return transactionService.getAllTodoFromJsonPlaceHolder();
+    }
+
+    @GetMapping("/todos/{id}")
+    public Todo test(@PathVariable Integer id){
+        return transactionService.getTodoById(id);
     }
 }

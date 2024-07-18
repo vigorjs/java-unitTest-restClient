@@ -1,5 +1,6 @@
 package enigma.customer.service.implementation;
 
+import enigma.customer.dto.Todo;
 import enigma.customer.dto.TransactionDTO;
 import enigma.customer.model.Customer;
 import enigma.customer.model.Transaction;
@@ -7,15 +8,25 @@ import enigma.customer.repository.TransactionRepository;
 import enigma.customer.service.CustomerService;
 import enigma.customer.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CustomerService customerService;
+    private final RestClient restClient;
+
+    public TransactionServiceImpl(TransactionRepository transactionRepository, CustomerService customerService, RestClient restClient) {
+        this.transactionRepository = transactionRepository;
+        this.customerService = customerService;
+        this.restClient = restClient;
+    }
 
     @Override
     public Transaction create(TransactionDTO transactionDTO) {
@@ -58,6 +69,23 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteById(Long id) {
         Transaction transaction = getById(id);
         transactionRepository.delete(transaction);
+    }
+
+    @Override
+    public Todo getTodoById(Integer id) {
+        return restClient.get()
+                .uri("https://jsonplaceholder.typicode.com/todos/{id}", id)
+                .retrieve()
+                .body(Todo.class);
+    }
+
+    @Override
+    public List<Todo> getAllTodoFromJsonPlaceHolder() {
+        return restClient.get()
+                .uri("https://jsonplaceholder.typicode.com/todos")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Todo>>() {
+                });
     }
 
     private void validateTransactionDTO(TransactionDTO transactionDTO) {
